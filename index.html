@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iron-Man Progress Tracker</title>
+</head>
+<body>
+    <center>
+    <h1 style="font-size: 3.2em; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: row; height: min-content; margin-left:25%; margin-right: 25%; width: 50%; text-align: center;">
+        Cyborg is on this <p style="font-size: inherit; color: green; font-family: inherit; height: min-content; margin: 0; padding-left: 10px; padding-right: 10px;">Survivor</p>:->
+        </h1>
+  <img id="liveImage1" src="" alt="Live image" width="300" height="200" />
+    <h1 style="font-size: 3.2em; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: row; height: min-content; margin-left:25%; margin-right: 25%; width: 50%; text-align: center;">
+    Cyborg is on this <p style="font-size: inherit; color: red; font-family: inherit; height: min-content; margin: 0; padding-left: 10px; padding-right: 10px;">Killer</p>:->
+    </h1>
+    <img id="liveImage2" src="" alt="Live image" width="300" height="200" />
+</center>
+    <style>
+        body{
+            background-image: url(cyborgting.jpeg);
+            background-size: cover;
+            background-repeat: no-repeat;          
+        }
+    </style>
+
+  <!-- Firebase SDKs (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAYhMBLauYhj5TkEC7Zpg8kTXQOUC-49TE",
+      authDomain: "ironmantracker-80abc.firebaseapp.com",
+      databaseURL: "https://ironmantracker-80abc-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "ironmantracker-80abc",
+      storageBucket: "ironmantracker-80abc.firebasestorage.app",
+      messagingSenderId: "664742131957",
+      appId: "1:664742131957:web:1f9044573289d5c4fe6dbc",
+      measurementId: "G-XJNL6DK558"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the database
+    const db = firebase.database();
+
+    // Listen for changes in image URL
+    db.ref("survivor/url").on("value", (snapshot) => {
+      const url = snapshot.val();
+      document.getElementById("liveImage1").src = url + "?t=" + new Date().getTime(); // bust cache
+    });
+
+    db.ref("killer/url").on("value", (snapshot) => {
+      const url = snapshot.val();
+      document.getElementById("liveImage2").src = url + "?t=" + new Date().getTime(); // bust cache
+    });
+  </script>
+</body>
+</html>
